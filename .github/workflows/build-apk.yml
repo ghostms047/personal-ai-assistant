@@ -41,14 +41,12 @@ jobs:
         working-directory: build-src
         run: |
           rm -rf app/src/main/cpp/llama.cpp
-          git clone --depth 1 --filter=blob:none --sparse https://github.com/ggml-org/llama.cpp.git app/src/main/cpp/llama.cpp
-          cd app/src/main/cpp/llama.cpp
-          git sparse-checkout set .
-          test -s include/llama.h
-          test -s src/CMakeLists.txt
-          test -s src/llama.cpp
-          test -s src/llama-model.cpp
-          test -s ggml/include/ggml.h
+          git clone --depth 1 https://github.com/ggml-org/llama.cpp.git app/src/main/cpp/llama.cpp
+          test -s app/src/main/cpp/llama.cpp/include/llama.h
+          test -s app/src/main/cpp/llama.cpp/src/CMakeLists.txt
+          test -s app/src/main/cpp/llama.cpp/src/llama.cpp
+          test -s app/src/main/cpp/llama.cpp/src/llama-model.cpp
+          test -s app/src/main/cpp/llama.cpp/ggml/include/ggml.h
       - name: Apply approved Personal AI Assistant logo
         working-directory: build-src
         run: |
