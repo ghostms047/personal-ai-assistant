@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - "personal-ai-assistant.zip"
+      - "personal-ai-assistant (1).zip"
       - ".github/workflows/build-apk.yml"
 
 jobs:
@@ -36,7 +37,7 @@ jobs:
         run: |
           rm -rf build-src
           mkdir build-src
-          unzip -q personal-ai-assistant.zip -d build-src
+          unzip -q "personal-ai-assistant (1).zip" -d build-src
           cd build-src
           test -f settings.gradle.kts
           test -f app/build.gradle.kts
@@ -44,15 +45,7 @@ jobs:
       - name: Prepare debug keystore
         working-directory: build-src
         run: |
-          keytool -genkeypair -v \
-            -keystore debug.keystore \
-            -storepass android \
-            -keypass android \
-            -alias androiddebugkey \
-            -keyalg RSA \
-            -keysize 2048 \
-            -validity 10000 \
-            -dname "CN=Android Debug,O=Android,C=US"
+          keytool -genkeypair -v             -keystore debug.keystore             -storepass android             -keypass android             -alias androiddebugkey             -keyalg RSA             -keysize 2048             -validity 10000             -dname "CN=Android Debug,O=Android,C=US"
 
       - name: Install Gradle
         uses: gradle/actions/setup-gradle@v4
