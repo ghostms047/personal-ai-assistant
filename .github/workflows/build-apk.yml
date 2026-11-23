@@ -37,11 +37,18 @@ jobs:
           cd build-src
           test -f settings.gradle.kts
           test -f app/build.gradle.kts
-      - name: Repair embedded llama.cpp CMake
+      - name: Repair corrupted embedded llama.cpp source
         working-directory: build-src
         run: |
-          curl -fsSL "https://raw.githubusercontent.com/ggml-org/llama.cpp/master/src/CMakeLists.txt"             -o app/src/main/cpp/llama.cpp/src/CMakeLists.txt
-          test -s app/src/main/cpp/llama.cpp/src/CMakeLists.txt
+          rm -rf app/src/main/cpp/llama.cpp
+          git clone --depth 1 --filter=blob:none --sparse https://github.com/ggml-org/llama.cpp.git app/src/main/cpp/llama.cpp
+          cd app/src/main/cpp/llama.cpp
+          git sparse-checkout set .
+          test -s include/llama.h
+          test -s src/CMakeLists.txt
+          test -s src/llama.cpp
+          test -s src/llama-model.cpp
+          test -s ggml/include/ggml.h
       - name: Apply approved Personal AI Assistant logo
         working-directory: build-src
         run: |
