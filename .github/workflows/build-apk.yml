@@ -37,6 +37,11 @@ jobs:
           cd build-src
           test -f settings.gradle.kts
           test -f app/build.gradle.kts
+      - name: Repair embedded llama.cpp CMake
+        working-directory: build-src
+        run: |
+          curl -fsSL "https://raw.githubusercontent.com/ggml-org/llama.cpp/master/src/CMakeLists.txt"             -o app/src/main/cpp/llama.cpp/src/CMakeLists.txt
+          test -s app/src/main/cpp/llama.cpp/src/CMakeLists.txt
       - name: Apply approved Personal AI Assistant logo
         working-directory: build-src
         run: |
